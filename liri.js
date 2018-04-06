@@ -1,20 +1,19 @@
 require("dotenv").config();
 var request = require("request");
-var twitter = require("twitter");
+
+var keys = require("./keys.js");
+var Twitter = require("twitter");
+var Spotify = require("node-spotify-api");
 
 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
+ 
 
-input = process.argv[2]
+var params = {screen_name: 'nodejs'};
 
-twitter.get(input, function (err, results) {
-    if (err) {
-       console.log(err)
-    }
-
-   
-    console.log(JSON.stringify(results, null, 2))
-
-
-})
+client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  if (!error) {
+    console.log(tweets);
+  }
+});
