@@ -5,14 +5,20 @@ var keys = require("./keys.js");
 var Twitter = require("twitter");
 var client = new Twitter(keys.twitter);
 var myTweets = function() {
+  
   var params = {
   screen_name: "JCBootCamp",
-  count: 1
+  count: 20
   };
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      console.log(tweets);
+      for (i = 0; i < tweets.length; i++) {
+        console.log(tweets[i].text);
+        console.log(tweets[i].created_at);
+        console.log("-------------------------------------------------------------------------------");
+        console.log("");
+      }
     }
   });
 
