@@ -16,6 +16,7 @@ var myTweets = function() {
   client.get("statuses/user_timeline", params, function(error, tweets, response) {
     if (!error) {
       for (i = 0; i < tweets.length; i++) {
+        console.log("-------------------------------------------------------------------------------");
         console.log(tweets[i].text);
         console.log(tweets[i].created_at);
         console.log("-------------------------------------------------------------------------------");
@@ -41,7 +42,14 @@ var spotifyThisSong = function(query) {
     query: query,
   }, function(error, response) {
     if (!error) {
-      console.log(response.tracks); 
+      var song = response.tracks.items[0]
+      console.log("-------------------------------------------------------------------------------");
+      console.log("Artist: " + song.artists[0].name)
+      console.log("Title: " + song.name); 
+      console.log("Album: " + song.album.name)
+      console.log("Preview Song: " + song.preview_url);
+      console.log("-------------------------------------------------------------------------------");
+      console.log("");
     }
     else {
       console.log("Error occurred: " + error);
@@ -58,7 +66,19 @@ var movieThis = function(query) {
 
   request(url, function(error, response, body) {
     if (!error) {
-      console.log(JSON.parse(body).Title)
+      var movie = JSON.parse(body)
+      console.log("-------------------------------------------------------------------------------");
+      console.log("Title: " + movie.Title);
+      console.log("Year: " + movie.Year);
+      console.log("IMDB Rating: " + movie.Ratings[0].Value);
+      console.log("Rotten Tomatoes Rating: " + movie.Ratings[1].Value);
+      console.log("Country: " + movie.Country);
+      console.log("Language: " + movie.Language);
+      console.log("Actors: " + movie.Actors);
+      console.log("Plot: " + movie.Plot);
+      console.log("-------------------------------------------------------------------------------");
+      console.log("");
+
     }
     else {
       console.log("Error occurred: " + error);
