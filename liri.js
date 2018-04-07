@@ -20,7 +20,7 @@ var myTweets = function() {
           tweets[i].text  + "\n" +
           tweets[i].created_at  + "\n" +
           "-------------------------------------------------------------------------------" + "\n" +
-          "");
+          "" + "\n");
       }
     }
     else {
@@ -50,7 +50,7 @@ var spotifyThisSong = function(query) {
         "Album: " + song.album.name + "\n" +
         "Preview Song: " + song.preview_url + "\n" +
         "-------------------------------------------------------------------------------" + "\n" +
-        "");
+        "" + "\n");
     }
     else {
       console.log("Error occurred: " + error);
@@ -78,7 +78,7 @@ var movieThis = function(query) {
         "Actors: " + movie.Actors + "\n" +
         "Plot: " + movie.Plot + "\n" +
         "-------------------------------------------------------------------------------" + "\n" +
-        "");
+        "" + "\n");
 
     }
     else {
@@ -107,10 +107,10 @@ var doWhatItSays = function() {
 /* REDEFINES CONSOLE.LOG TO APPEND RESULTS TO LOG.TXT IN ADDITION TO CONSOLE LOGGING */
 var oldLog = console.log;
 console.log = function(msg) {
-    fs.appendFile("txt.log", msg, function(err) {
-        if(err) {
-            return oldLog(err);
-        }
+    fs.appendFile("log.txt", msg, function(err) {
+      if(err) {
+        return oldLog(err);
+      }
     });
     oldLog(msg); 
 }
@@ -121,8 +121,16 @@ var command = process.argv[2];
 var query = process.argv[3];
 
 
-/* CHOOSES FUNCTION BASED ON USER INPUT */
+
 var execute = function(command, query) {
+  /* LOGS COMMAND TO LOG.TXT */
+  fs.appendFile("log.txt", "USER INPUT: " + command + " " + query + "\n", function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  /* CHOOSES FUNCTION BASED ON USER INPUT */
   switch (command) {
 
     /* RETRIEVES TWEETS */
