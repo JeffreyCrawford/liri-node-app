@@ -5,7 +5,6 @@ var keys = require("./keys.js");
 /* TWITTER VARIABLES */
 var Twitter = require("twitter");
 var client = new Twitter(keys.twitter);
-
 var myTweets = function() {
   
   var params = {
@@ -17,11 +16,11 @@ var myTweets = function() {
   client.get("statuses/user_timeline", params, function(error, tweets, response) {
     if (!error) {
       for (i = 0; i < tweets.length; i++) {
-        console.log("-------------------------------------------------------------------------------");
-        console.log(tweets[i].text);
-        console.log(tweets[i].created_at);
-        console.log("-------------------------------------------------------------------------------");
-        console.log("");
+        console.log("-------------------------------------------------------------------------------" + "\n" +
+          tweets[i].text  + "\n" +
+          tweets[i].created_at  + "\n" +
+          "-------------------------------------------------------------------------------" + "\n" +
+          "");
       }
     }
     else {
@@ -35,7 +34,6 @@ var myTweets = function() {
 /* SPOTIFY VARIABLES */
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
-
 var spotifyThisSong = function(query) {
   
   /* RETRIEVE SONG INFO FROM SPOTIFY API */
@@ -46,13 +44,13 @@ var spotifyThisSong = function(query) {
   }, function(error, response) {
     if (!error) {
       var song = response.tracks.items[0]
-      console.log("-------------------------------------------------------------------------------");
-      console.log("Artist: " + song.artists[0].name)
-      console.log("Title: " + song.name); 
-      console.log("Album: " + song.album.name)
-      console.log("Preview Song: " + song.preview_url);
-      console.log("-------------------------------------------------------------------------------");
-      console.log("");
+      console.log("-------------------------------------------------------------------------------"  + "\n" +
+        "Artist: " + song.artists[0].name + "\n" +
+        "Title: " + song.name + "\n" + 
+        "Album: " + song.album.name + "\n" +
+        "Preview Song: " + song.preview_url + "\n" +
+        "-------------------------------------------------------------------------------" + "\n" +
+        "");
     }
     else {
       console.log("Error occurred: " + error);
@@ -63,7 +61,6 @@ var spotifyThisSong = function(query) {
 
 /* OMDB VARIABLES */
 var request = require("request");
-
 var movieThis = function(query) {
   var url = "http://www.omdbapi.com/?apikey=trilogy" + "&t=" + query; 
 
@@ -71,17 +68,17 @@ var movieThis = function(query) {
   request(url, function(error, response, body) {
     if (!error) {
       var movie = JSON.parse(body)
-      console.log("-------------------------------------------------------------------------------");
-      console.log("Title: " + movie.Title);
-      console.log("Year: " + movie.Year);
-      console.log("IMDB Rating: " + movie.Ratings[0].Value);
-      console.log("Rotten Tomatoes Rating: " + movie.Ratings[1].Value);
-      console.log("Country: " + movie.Country);
-      console.log("Language: " + movie.Language);
-      console.log("Actors: " + movie.Actors);
-      console.log("Plot: " + movie.Plot);
-      console.log("-------------------------------------------------------------------------------");
-      console.log("");
+      console.log("-------------------------------------------------------------------------------" + "\n" +
+        "Title: " + movie.Title + "\n" +
+        "Year: " + movie.Year + "\n" +
+        "IMDB Rating: " + movie.Ratings[0].Value + "\n" +
+        "Rotten Tomatoes Rating: " + movie.Ratings[1].Value + "\n" +
+        "Country: " + movie.Country + "\n" +
+        "Language: " + movie.Language + "\n" +
+        "Actors: " + movie.Actors + "\n" +
+        "Plot: " + movie.Plot + "\n" +
+        "-------------------------------------------------------------------------------" + "\n" +
+        "");
 
     }
     else {
@@ -93,7 +90,6 @@ var movieThis = function(query) {
 
 /* DO WHAT IT SAYS VARIABLES */
 var fs = require("fs");
-
 var doWhatItSays = function() {
   /* READ RANDOM.TXT AND RUN EXECUTE WITH THOSE PARAMETERS */
   fs.readFile("random.txt", "utf8", function(error, data) {
@@ -108,9 +104,22 @@ var doWhatItSays = function() {
 }
 
 
+/* REDEFINES CONSOLE.LOG TO APPEND RESULTS TO LOG.TXT IN ADDITION TO CONSOLE LOGGING */
+var oldLog = console.log;
+console.log = function(msg) {
+    fs.appendFile("txt.log", msg, function(err) {
+        if(err) {
+            return oldLog(err);
+        }
+    });
+    oldLog(msg); 
+}
+
+
 /* DEFINE DEFAULT EXECUTE PARAMETERS */
 var command = process.argv[2];
-var query = process.argv[3]
+var query = process.argv[3];
+
 
 /* CHOOSES FUNCTION BASED ON USER INPUT */
 var execute = function(command, query) {
@@ -149,6 +158,10 @@ var execute = function(command, query) {
 
 /* RUN EXECUTE WITH PARAMETERS */
 execute(command, query);
+
+
+
+
 
 
 
