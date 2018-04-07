@@ -31,12 +31,12 @@ var myTweets = function() {
 /* SPOTIFY */
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
-var spotifyThisSong = function() {
+var spotifyThisSong = function(query) {
   
   spotify.search({ 
     type: "track", 
     limit: 1,
-    query: process.argv[3]
+    query: query,
   }, function(error, response) {
     if (!error) {
       console.log(response.tracks); 
@@ -53,8 +53,7 @@ var spotifyThisSong = function() {
 
 /* OMDB */
 var request = require("request");
-var movieThis = function() {
-  var query = process.argv[3];
+var movieThis = function(query) {
   var url = "http://www.omdbapi.com/?apikey=trilogy" + "&t=" + query; 
 
   request(url, function(error, response, body) {
@@ -74,7 +73,7 @@ var doWhatItSays = function() {
     if (!error) {
       var output = data.split(",");
       console.log(output[0]);
-      execute(output[0]);
+      execute(output[0],output[1]);
     }
     else {
       console.log("Error occurred: " + error);
@@ -84,17 +83,18 @@ var doWhatItSays = function() {
 
 
 command = process.argv[2];
+query = process.argv[3]
 
-var execute = function(command) {
+var execute = function(command, query) {
   switch (command) {
     case "my-tweets":
       myTweets();
       break;
     case "spotify-this-song":
-      spotifyThisSong();
+      spotifyThisSong(query);
       break;
     case "movie-this":
-      movieThis();
+      movieThis(query);
       break;
     case "do-what-it-says":
       doWhatItSays();
