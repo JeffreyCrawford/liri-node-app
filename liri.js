@@ -1,6 +1,7 @@
 require("dotenv").config();
 var keys = require("./keys.js");
 
+
 /* TWITTER */
 var Twitter = require("twitter");
 var client = new Twitter(keys.twitter);
@@ -66,25 +67,42 @@ var movieThis = function() {
   })
 }
 
+/* DO WHAT IT SAYS */
+var fs = require("fs");
+var doWhatItSays = function() {
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (!error) {
+      var output = data.split(",");
+      console.log(output[0]);
+      execute(output[0]);
+    }
+    else {
+      console.log("Error occurred: " + error);
+    }
+  })
+}
+
 
 command = process.argv[2];
 
-
-switch (command) {
-  case "my-tweets":
-    myTweets();
-    break;
-  case "spotify-this-song":
-    spotifyThisSong();
-    break;
-  case "movie-this":
-    movieThis();
-    break;
-  case "do-what-it-says":
-    console.log("do-what-it-says")
-    break;
+var execute = function(command) {
+  switch (command) {
+    case "my-tweets":
+      myTweets();
+      break;
+    case "spotify-this-song":
+      spotifyThisSong();
+      break;
+    case "movie-this":
+      movieThis();
+      break;
+    case "do-what-it-says":
+      doWhatItSays();
+      break;
+  }
 }
 
+execute(process.argv[2]);
 
 
 
