@@ -2,9 +2,10 @@ require("dotenv").config();
 var keys = require("./keys.js");
 
 
-/* TWITTER */
+/* TWITTER VARIABLES */
 var Twitter = require("twitter");
 var client = new Twitter(keys.twitter);
+
 var myTweets = function() {
   
   var params = {
@@ -28,9 +29,10 @@ var myTweets = function() {
 
 }
 
-/* SPOTIFY */
+/* SPOTIFY VARIABLES */
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
+
 var spotifyThisSong = function(query) {
   
   spotify.search({ 
@@ -44,15 +46,13 @@ var spotifyThisSong = function(query) {
     else {
       console.log("Error occurred: " + error);
     }
-  
-  });
-      
+  }); 
 }
 
 
-
-/* OMDB */
+/* OMDB VARIABLES */
 var request = require("request");
+
 var movieThis = function(query) {
   var url = "http://www.omdbapi.com/?apikey=trilogy" + "&t=" + query; 
 
@@ -66,14 +66,15 @@ var movieThis = function(query) {
   })
 }
 
-/* DO WHAT IT SAYS */
+
+/* DO WHAT IT SAYS VARIABLES */
 var fs = require("fs");
+
 var doWhatItSays = function() {
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (!error) {
       var output = data.split(",");
-      console.log(output[0]);
-      execute(output[0],output[1]);
+      execute(output[0], output[1]);
     }
     else {
       console.log("Error occurred: " + error);
@@ -82,8 +83,9 @@ var doWhatItSays = function() {
 }
 
 
-command = process.argv[2];
-query = process.argv[3]
+/* EXECUTE VARIABLES */
+var command = process.argv[2];
+var query = process.argv[3]
 
 var execute = function(command, query) {
   switch (command) {
@@ -102,7 +104,9 @@ var execute = function(command, query) {
   }
 }
 
-execute(process.argv[2]);
+
+/* RUN EXECUTE WITH PARAMETERS */
+execute(command, query);
 
 
 
