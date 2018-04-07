@@ -13,6 +13,7 @@ var myTweets = function() {
   count: 20
   };
 
+  /* RETRIEVE 20 TWEETS FROM JCBOOTCAMP */
   client.get("statuses/user_timeline", params, function(error, tweets, response) {
     if (!error) {
       for (i = 0; i < tweets.length; i++) {
@@ -30,12 +31,14 @@ var myTweets = function() {
 
 }
 
+
 /* SPOTIFY VARIABLES */
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 
 var spotifyThisSong = function(query) {
   
+  /* RETRIEVE SONG INFO FROM SPOTIFY API */
   spotify.search({ 
     type: "track", 
     limit: 1,
@@ -64,6 +67,7 @@ var request = require("request");
 var movieThis = function(query) {
   var url = "http://www.omdbapi.com/?apikey=trilogy" + "&t=" + query; 
 
+  /* RETRIEVE MOVIE INFO FROM OMDB API */
   request(url, function(error, response, body) {
     if (!error) {
       var movie = JSON.parse(body)
@@ -91,6 +95,7 @@ var movieThis = function(query) {
 var fs = require("fs");
 
 var doWhatItSays = function() {
+  /* READ RANDOM.TXT AND RUN EXECUTE WITH THOSE PARAMETERS */
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (!error) {
       var output = data.split(",");
@@ -103,21 +108,38 @@ var doWhatItSays = function() {
 }
 
 
-/* EXECUTE VARIABLES */
+/* DEFINE DEFAULT EXECUTE PARAMETERS */
 var command = process.argv[2];
 var query = process.argv[3]
 
+/* CHOOSES FUNCTION BASED ON USER INPUT */
 var execute = function(command, query) {
   switch (command) {
+
+    /* RETRIEVES TWEETS */
     case "my-tweets":
       myTweets();
       break;
+
+    /* RETRIEVES SONG INFO */
     case "spotify-this-song":
+      /* IF NO QUERY TERM, RETURN THE SIGN BY ACE OF BASE */
+      if (!query) {
+        var query = "The Sign Ace of Base";
+      }
       spotifyThisSong(query);
       break;
+
+    /* RETRIEVES MOVIE INFO */
     case "movie-this":
-      movieThis(query);
+      /* IF NO QUERY ITEM, RETUN MR. NOBODY */
+      if (!query) {
+        var query = "Mr. Nobody";
+      }
+        movieThis(query);
       break;
+
+    /* RETRIVES COMMAND FROM RANDOM.TXT */
     case "do-what-it-says":
       doWhatItSays();
       break;
